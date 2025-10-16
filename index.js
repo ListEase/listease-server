@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ Add this line
+app.get("/", (req, res) => {
+  res.send("🎉 ListEase backend is live and ready!");
+});
+
 app.post("/generate", async (req, res) => {
   const { prompt } = req.body;
 
@@ -37,3 +42,4 @@ app.post("/generate", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
