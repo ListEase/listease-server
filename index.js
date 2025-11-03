@@ -2,20 +2,21 @@ import express from "express";
 import cors from "cors";
 
 const app = express();
+const PORT = process.env.PORT || 10000;
 
-// middleware
+// ✅ Middleware
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://listease-frontend.onrender.com", // <-- your frontend URL
+    "https://listease-frontend.onrender.com", // your deployed frontend URL
   ],
 }));
 app.use(express.json());
 
-// health check
+// ✅ Health check route
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
-// REQUIRED ROUTE (the one your frontend calls)
+// ✅ AI Ideas route
 app.post("/api/ideas/generate", (req, res) => {
   const { niche = "", audience = "", season = "", count = 5 } = req.body || {};
   const n = Math.max(1, Math.min(Number(count) || 5, 10));
@@ -61,4 +62,8 @@ app.post("/api/ideas/generate", (req, res) => {
 
   res.json({ ideas });
 });
+
+// ✅ Start server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
 
